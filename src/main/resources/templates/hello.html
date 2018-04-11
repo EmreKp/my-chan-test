@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
+    <title>Emre's Chan</title>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <h1>Welcome to chan</h1>
+    </div>
+    <div class="row" th:each="post : ${posts}">
+        <p th:inline="text"><b>[[${post.title}]]</b> by [[${post.nick}]] -
+            [[${#dates.format(post.sentAt, 'dd/MM/yyyy HH:mm')}]]</p>
+        <p th:text="${post.text}"></p>
+        <hr/>
+    </div>
+    <div class="row">
+        <form method="post" th:action="@{/send}" th:object="${message}">
+            <div class="form-group row">
+                <label class="col-sm-5 control-label">nick:</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" th:field="*{nick}"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-5 control-label">title:</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" th:field="*{title}"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-5 control-label">message:</label>
+                <div class="col-sm-7">
+                    <textarea class="form-control" th:field="*{text}"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-8">
+                    <button type="submit" class="btn btn-success">SUBMIT THE POST</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
