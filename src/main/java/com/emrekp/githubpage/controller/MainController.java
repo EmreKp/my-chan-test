@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Date;
 
@@ -31,8 +32,16 @@ public class MainController {
     }
 
     @PostMapping("/")
-    public String deletePost(@RequestParam Long deleteId) {
-        repository.deleteById(deleteId);
+    public String deletePost(@RequestParam Long deleteId, @RequestParam String password,
+                             RedirectAttributes redirectAttributes) {
+        Message message = repository.findById(deleteId).get();
+        String deletePass = message.getDeletePass();
+        if (!deletePass.isEmpty() && message.getDeletePass().equals(password)) {
+            repository.deleteById(deleteId);
+            redirectAttributes.addFlashAttribute("success", "Post deleted");
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Password is not valid");
+        }
         return "redirect:/";
     }
 

@@ -9,6 +9,12 @@
     <div class="row">
         <h1>Welcome to chan</h1>
     </div>
+    <div class="alert alert-success" th:if="${success}">
+        <p th:text="${success}"></p>
+    </div>
+    <div class="alert alert-danger" th:if="${error}">
+        <p th:text="${error}"></p>
+    </div>
     <div class="row" th:each="post : ${posts}">
         <p th:inline="text"><b>[[${post.title}]]</b> by [[${post.nick}]] -
             [[${#dates.format(post.sentAt, 'dd/MM/yyyy HH:mm')}]]</p>
@@ -24,19 +30,25 @@
             <div class="form-group row">
                 <label class="col-sm-5 control-label">nick:</label>
                 <div class="col-sm-7">
-                    <input type="text" class="form-control" th:field="*{nick}"/>
+                    <input type="text" class="form-control" th:field="*{nick}" required="required"/>
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-5 control-label">title:</label>
                 <div class="col-sm-7">
-                    <input type="text" class="form-control" th:field="*{title}"/>
+                    <input type="text" class="form-control" th:field="*{title}" required="required"/>
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-5 control-label">message:</label>
                 <div class="col-sm-7">
-                    <textarea class="form-control" th:field="*{text}"></textarea>
+                    <textarea class="form-control" th:field="*{text}" required="required"></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-5 control-label">delete password (optional):</label>
+                <div class="col-sm-7">
+                    <input type="password" class="form-control" th:field="*{deletePass}" />
                 </div>
             </div>
             <div class="form-group">
@@ -52,11 +64,12 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-                <p>Are you sure you want to delete post?</p>
+                <p>Enter your delete password in the blank below:</p>
             </div>
             <div class="modal-footer">
                 <form method="post">
                     <input type="hidden" id="delete" name="deleteId" />
+                    <input type="password" id="deletePass" name="password" required="required" />
                     <button type="submit" class="btn btn-danger">DELETE</button>
                     <button class="btn" data-dismiss="modal">Close</button>
                 </form>

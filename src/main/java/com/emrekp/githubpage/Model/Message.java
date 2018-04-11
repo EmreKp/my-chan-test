@@ -13,6 +13,7 @@ public class Message {
     @Lob
     private String text;
     private Date sentAt;
+    private String deletePass;
 
     public Long getId() {
         return id;
@@ -52,5 +53,13 @@ public class Message {
 
     public void setSentAt(Date sentAt) {
         this.sentAt = sentAt;
+    }
+
+    public String getDeletePass() {
+        return deletePass;
+    }
+
+    public void setDeletePass(String deletePass) {
+        this.deletePass = deletePass;
     }
 }
