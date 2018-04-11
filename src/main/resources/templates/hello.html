@@ -15,8 +15,43 @@
     <div class="alert alert-danger" th:if="${error}">
         <p th:text="${error}"></p>
     </div>
+    <!-- form is top and bottom -->
+    <div class="row">
+        <form method="post" th:action="@{/send}" th:object="${message}">
+            <div class="form-group row">
+                <label class="col-sm-5 control-label">nick:</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" th:field="*{nick}" required="required"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-5 control-label">title:</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" th:field="*{title}" required="required"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-5 control-label">message:</label>
+                <div class="col-sm-7">
+                    <textarea class="form-control" th:field="*{text}" required="required"></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-5 control-label">delete password (optional):</label>
+                <div class="col-sm-7">
+                    <input type="password" class="form-control" th:field="*{deletePass}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-8">
+                    <button type="submit" class="btn btn-success">SUBMIT THE POST</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <hr/>
     <div class="row" th:each="post : ${posts}">
-        <p th:inline="text"><b>[[${post.title}]]</b> by [[${post.nick}]] -
+        <p th:inline="text">#[[${post.id}]] - <b>[[${post.title}]]</b> by [[${post.nick}]] -
             [[${#dates.format(post.sentAt, 'dd/MM/yyyy HH:mm')}]]</p>
         <p th:text="${post.text}"></p>
         <p>
@@ -25,6 +60,7 @@
         </p>
         <hr/>
     </div>
+    <!-- copy of above form -->
     <div class="row">
         <form method="post" th:action="@{/send}" th:object="${message}">
             <div class="form-group row">
