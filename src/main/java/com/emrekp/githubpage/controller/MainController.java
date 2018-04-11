@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Date;
 
@@ -27,6 +28,12 @@ public class MainController {
         model.addAttribute("posts", repository.findAll(new Sort(Sort.Direction.DESC, "id")));
         model.addAttribute("message", new Message());
         return "hello";
+    }
+
+    @PostMapping("/")
+    public String deletePost(@RequestParam Long deleteId) {
+        repository.deleteById(deleteId);
+        return "redirect:/";
     }
 
     @PostMapping("/send")
