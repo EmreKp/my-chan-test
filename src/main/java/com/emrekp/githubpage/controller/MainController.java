@@ -1,7 +1,9 @@
 package com.emrekp.githubpage.controller;
 
 import com.emrekp.githubpage.Model.Message;
+import com.emrekp.githubpage.Model.User;
 import com.emrekp.githubpage.repo.MessageRepository;
+import com.emrekp.githubpage.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -18,10 +20,12 @@ import java.util.Date;
 public class MainController {
 
     private final MessageRepository repository;
+    private final UserService userService;
 
     @Autowired
-    public MainController(MessageRepository repository) {
+    public MainController(MessageRepository repository, UserService userService) {
         this.repository = repository;
+        this.userService = userService;
     }
 
     @GetMapping("/")
@@ -49,6 +53,18 @@ public class MainController {
     public String sendMsg(@ModelAttribute Message message, Model model) {
         message.setSentAt(new Date());
         repository.save(message);
+        return "redirect:/";
+    }
+
+    @GetMapping("/register")
+    public String regForm(Model model) {
+        model.addAttribute("user", new User());
+        return "register";
+    }
+
+    @PostMapping("/register")
+    public String regUser(@ModelAttribute User user, Model model) {
+        userService.save(user);
         return "redirect:/";
     }
 }
