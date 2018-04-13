@@ -1,4 +1,4 @@
-package com.emrekp.githubpage.service;
+package com.emrekp.githubpage.security;
 
 import com.emrekp.githubpage.Model.User;
 import com.emrekp.githubpage.repo.UserRepository;

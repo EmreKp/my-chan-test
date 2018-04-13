@@ -1,4 +1,4 @@
-package com.emrekp.githubpage.service;
+package com.emrekp.githubpage.security;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;

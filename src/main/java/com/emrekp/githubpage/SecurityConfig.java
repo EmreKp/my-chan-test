@@ -1,6 +1,6 @@
 package com.emrekp.githubpage;
 
-import com.emrekp.githubpage.service.UserDetailsServiceImpl;
+import com.emrekp.githubpage.security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

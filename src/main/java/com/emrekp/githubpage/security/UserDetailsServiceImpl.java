@@ -1,4 +1,4 @@
-package com.emrekp.githubpage.service;
+package com.emrekp.githubpage.security;
 
 import com.emrekp.githubpage.Model.User;
 import com.emrekp.githubpage.repo.UserRepository;
@@ -11,9 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
