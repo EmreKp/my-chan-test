@@ -1,31 +1,33 @@
 package com.emrekp.githubpage.controller;
 
 import com.emrekp.githubpage.Model.Message;
+import com.emrekp.githubpage.Model.Reply;
 import com.emrekp.githubpage.Model.User;
 import com.emrekp.githubpage.repo.MessageRepository;
-import com.emrekp.githubpage.service.UserService;
+import com.emrekp.githubpage.security.UserService;
+import com.emrekp.githubpage.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Date;
+import java.util.List;
 
 @Controller
 public class MainController {
 
     private final MessageRepository repository;
     private final UserService userService;
+    private final PostService postService;
 
     @Autowired
-    public MainController(MessageRepository repository, UserService userService) {
+    public MainController(MessageRepository repository, UserService userService, PostService postService) {
         this.repository = repository;
         this.userService = userService;
+        this.postService = postService;
     }
 
     @GetMapping("/")
@@ -66,5 +68,23 @@ public class MainController {
     public String regUser(@ModelAttribute User user, Model model) {
         userService.save(user);
         return "redirect:/";
+    }
+
+    @GetMapping("/message/{id}")
+    public String viewMessage(@PathVariable Long id, Model model) {
+        Message message = postService.getMessage(id);
+        List<Reply> replies = postService.getReplies(id);
+        model.addAttribute("message", message);
+        model.addAttribute("replies", replies);
+        Reply reply = new Reply();
+        reply.setMessageId(id);
+        model.addAttribute("reply", reply);
+        return "reply";
+    }
+
+    @PostMapping("/reply")
+    public String replyMsg(@ModelAttribute Reply reply, Model model) {
+        postService.replyToMessage(reply); //message id html'de gönderiliyor
+        return "redirect:/message/" + reply.getMessageId();
     }
 }
